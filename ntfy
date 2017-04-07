@@ -2,9 +2,28 @@
 
 set -e
 
+while getopts ":t:m:" opt; do
+	case $opt in
+		t)
+			title=$OPTARG
+			;;
+		m)
+			message=$OPTARG
+			;;
+		:)
+			echo "-$OPTARG requires an argument" >&2
+			exit 1
+			;;
+		\?)
+			echo "Invalid option: -$OPTARG" >&2
+			exit 1
+			;;
+	esac
+done
+
 curl -s \
   --form-string "token=$(awk -F "=" '/token/ {print $2}' ~/.ntfy)" \
   --form-string "user=$(awk -F "=" '/user/ {print $2}' ~/.ntfy)" \
-  --form-string "title=hello world" \
-  --form-string "message=hello world!" \
+  --form-string "title=$title" \
+  --form-string "message=$message" \
   https://api.pushover.net/1/messages.json
