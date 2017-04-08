@@ -25,7 +25,10 @@ shift $(($OPTIND - 1))
 
 startepoch=$(date +%s)
 
+set +e
 "$@"
+rc=$?
+set -e
 
 endepoch=$(date +%s)
 elapsed=$(($endepoch - $startepoch))
