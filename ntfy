@@ -48,6 +48,7 @@ if [ "$1" != "" ]; then
 		else
 			title="Command finished"
 		fi
+		title="$title on $(hostname -s)"
 	fi
 	if [ "$message" = "" ]; then
 		message="Command $1 exited"
