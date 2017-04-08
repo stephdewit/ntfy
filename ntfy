@@ -41,6 +41,30 @@ else
 	duration="$elapsed s"
 fi
 
+if [ "$1" != "" ]; then
+	if [ "$title" = "" ]; then
+		if [ $rc -gt 0 ]; then
+			title="Command failed"
+		else
+			title="Command finished"
+		fi
+	fi
+	if [ "$message" = "" ]; then
+		message="Command $1 exited"
+		if [ $rc -gt 0 ]; then
+			message="$message with RC $rc"
+		fi
+		message="$message in $duration"
+	fi
+fi
+
+if [ "$title" = "" ]; then
+	title="ntfy called"
+fi
+if [ "$message" = "" ]; then
+	message="ntfy called"
+fi
+
 curl -s \
   --form-string "token=$(awk -F "=" '/token/ {print $2}' ~/.ntfy)" \
   --form-string "user=$(awk -F "=" '/user/ {print $2}' ~/.ntfy)" \
