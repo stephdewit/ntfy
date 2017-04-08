@@ -22,7 +22,21 @@ while getopts ":t:m:" opt; do
 done
 
 shift $(($OPTIND - 1))
+
+startepoch=$(date +%s)
+
 "$@"
+
+endepoch=$(date +%s)
+elapsed=$(($endepoch - $startepoch))
+
+if [ $elapsed -gt 3600 ]; then
+	duration="$(($elapsed/3600)) h $((($elapsed%3600)/60)) m"
+elif [ $elapsed -gt 60 ]; then
+	duration="$(($elapsed/60)) m $(($elapsed%60)) s"
+else
+	duration="$elapsed s"
+fi
 
 curl -s \
   --form-string "token=$(awk -F "=" '/token/ {print $2}' ~/.ntfy)" \
