@@ -4,20 +4,10 @@ set -e
 
 while getopts ":t:m:" opt; do
 	case $opt in
-		t)
-			title=$OPTARG
-			;;
-		m)
-			message=$OPTARG
-			;;
-		:)
-			echo "-$OPTARG requires an argument" >&2
-			exit 1
-			;;
-		\?)
-			echo "Invalid option: -$OPTARG" >&2
-			exit 1
-			;;
+		t ) title=$OPTARG;;
+		m ) message=$OPTARG;;
+		: ) echo "-$OPTARG requires an argument" >&2; exit 1;;
+		\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 	esac
 done
 
