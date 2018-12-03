@@ -41,7 +41,8 @@ if [ "$1" != "" ]; then
 		title="$title on $(hostname -s)"
 	fi
 	if [ "$message" = "" ]; then
-		message="Command $1 exited"
+		cmd="$*"
+		message="Command '${cmd:0:32}' exited"
 		if [ $rc -gt 0 ]; then
 			message="$message with RC $rc"
 		fi
