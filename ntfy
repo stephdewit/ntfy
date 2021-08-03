@@ -11,7 +11,7 @@ while getopts ":t:m:" opt; do
 	esac
 done
 
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 startepoch=$(date +%s)
 
@@ -21,12 +21,12 @@ rc=$?
 set -e
 
 endepoch=$(date +%s)
-elapsed=$(($endepoch - $startepoch))
+elapsed=$((endepoch - startepoch))
 
 if [ $elapsed -gt 3600 ]; then
-	duration="$(($elapsed/3600))h $((($elapsed%3600)/60))m"
+	duration="$((elapsed/3600))h $(((elapsed%3600)/60))m"
 elif [ $elapsed -gt 60 ]; then
-	duration="$(($elapsed/60))m $(($elapsed%60))s"
+	duration="$((elapsed/60))m $((elapsed%60))s"
 else
 	duration="${elapsed}s"
 fi
