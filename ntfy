@@ -42,7 +42,7 @@ if [ "$1" != "" ]; then
 	fi
 	if [ "$message" = "" ]; then
 		cmd="$*"
-		message="Command '${cmd:0:32}' exited"
+		message="Command '$(echo "$cmd" | cut -c1-32)' exited"
 		if [ $rc -gt 0 ]; then
 			message="$message with RC $rc"
 		fi
