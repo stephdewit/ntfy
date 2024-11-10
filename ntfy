@@ -71,5 +71,10 @@ bell() {
 	printf '\a'
 }
 
+tmuxmsg() {
+	[ -z "$TMUX" ] || tmux display-message "$1: $2"
+}
+
 pushover "$title" "$message"
 bell
+tmuxmsg "$title" "$message"
