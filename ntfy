@@ -67,4 +67,9 @@ pushover() {
 		1>/dev/null
 }
 
+bell() {
+	printf '\a'
+}
+
 pushover "$title" "$message"
+bell
