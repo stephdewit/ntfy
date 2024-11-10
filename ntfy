@@ -2,10 +2,18 @@
 
 set -e
 
-while getopts ":t:m:" opt; do
+die() {
+	echo "$@" 1>&2
+	exit 1
+}
+
+mail=0
+
+while getopts ":t:m:M" opt; do
 	case $opt in
 		t ) title=$OPTARG;;
 		m ) message=$OPTARG;;
+		M ) mail=1;;
 		: ) echo "-$OPTARG requires an argument" >&2; exit 1;;
 		\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
 	esac
@@ -75,6 +83,16 @@ tmuxmsg() {
 	[ -z "$TMUX" ] || tmux display-message "$1: $2"
 }
 
+email() {
+	command -v mail >/dev/null 2>&1 || die "Can't find 'mail' command"
+
+	recipient=$(awk -F "=" '/mail_recipient/ {print $2}' ~/.ntfy)
+	[ -z "$recipient" ] && die 'Missing recipient in ~/.ntfy'
+
+	echo "$2" | mail -s "$1" "$recipient"
+}
+
 pushover "$title" "$message"
 bell
 tmuxmsg "$title" "$message"
+[ $mail -eq 1 ] && email "$title" "$message"
