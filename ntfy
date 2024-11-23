@@ -95,4 +95,6 @@ email() {
 pushover "$title" "$message"
 bell
 tmuxmsg "$title" "$message"
-[ $mail -eq 1 ] && email "$title" "$message"
+if [ $mail -eq 1 ]; then
+	email "$title" "$message"
+fi
